@@ -1,0 +1,886 @@
+<script src="http://www.google.com/jsapi" type="text/javascript"></script> 
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+
+<style type="text/css">
+	body {
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+		font-weight:300;
+		font-size:24px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 1100px;
+	}
+	
+	h1 {
+		font-size:32px;
+		font-weight:300;
+	}
+	
+	.disclaimerbox {
+		background-color: #eee;		
+		border: 1px solid #eeeeee;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+		padding: 20px;
+	}
+
+	video.header-vid {
+		height: 140px;
+		border: 1px solid black;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+
+	.video-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+	}
+	.video-item {
+		text-align: center;
+	}
+	video {
+		width: 250px;
+		height: auto;
+	}
+	figcaption {
+		margin-top: 8px;
+	}
+
+	
+	img.header-img {
+		height: 140px;
+		border: 1px solid black;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+	
+	img.rounded {
+		border: 1px solid #eeeeee;
+		border-radius: 10px ;
+		-moz-border-radius: 10px ;
+		-webkit-border-radius: 10px ;
+	}
+	
+	a:link,a:visited
+	{
+		color: #1367a7;
+		text-decoration: none;
+	}
+	a:hover {
+		color: #208799;
+	}
+	
+	td.dl-link {
+		height: 160px;
+		text-align: center;
+		font-size: 22px;
+	}
+	
+	.layered-paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		5px 5px 0 0px #fff, /* The second layer */
+		5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		10px 10px 0 0px #fff, /* The third layer */
+		10px 10px 1px 1px rgba(0,0,0,0.35), /* The third layer shadow */
+		15px 15px 0 0px #fff, /* The fourth layer */
+		15px 15px 1px 1px rgba(0,0,0,0.35), /* The fourth layer shadow */
+		20px 20px 0 0px #fff, /* The fifth layer */
+		20px 20px 1px 1px rgba(0,0,0,0.35), /* The fifth layer shadow */
+		25px 25px 0 0px #fff, /* The fifth layer */
+		25px 25px 1px 1px rgba(0,0,0,0.35); /* The fifth layer shadow */
+		margin-left: 10px;
+		margin-right: 45px;
+	}
+
+	.paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35); /* The top layer shadow */
+
+		margin-left: 10px;
+		margin-right: 45px;
+	}
+
+
+	.layered-paper { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		5px 5px 0 0px #fff, /* The second layer */
+		5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		10px 10px 0 0px #fff, /* The third layer */
+		10px 10px 1px 1px rgba(0,0,0,0.35); /* The third layer shadow */
+		margin-top: 5px;
+		margin-left: 10px;
+		margin-right: 30px;
+		margin-bottom: 5px;
+	}
+	
+	.vert-cent {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	
+	hr
+	{
+		border: 0;
+		height: 1px;
+		background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	}
+</style>
+
+<html>
+<head>
+	<title>ZeroCAD</title>
+	<meta property="og:image" content="Path to my teaser.png"/> <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/ if you update and want to force Facebook to rescrape. -->
+	<meta property="og:title" content="Creative and Descriptive Paper Title." />
+	<meta property="og:description" content="Paper description." />
+
+	<!-- Get from Google Analytics -->
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src=""></script> 
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-75863369-6');
+	</script>
+</head>
+
+<body>
+	<br>
+	<center>
+		<span style="font-size:36px">ZeroCAD: Leveraging 2D Outpainting as Guidance<br>for Zero-Shot 3D Instance-based Scene Reconstruction</span>
+		<!-- <table align=center width=600px>
+			<table align=center width=600px>
+				<tr>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:24px"><a href="https://en.wikipedia.org/wiki/James_J._Gibson">First Author</a></span>
+						</center>
+					</td>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:24px"><a href="https://en.wikipedia.org/wiki/James_J._Gibson">Second Author</a></span>
+						</center>
+					</td>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:24px"><a href="https://en.wikipedia.org/wiki/James_J._Gibson">Third Author</a></span>
+						</center>
+					</td>
+				</tr>
+			</table> -->
+			<!-- <table align=center width=250px>
+				<tr>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:24px"><a href=''>[Paper]</a></span>
+						</center>
+					</td>
+					<!-- <td align=center width=120px>
+						<center>
+							<span style="font-size:24px"><a href='https://github.com/richzhang/webpage-template'>[GitHub]</a></span><br>
+						</center>
+					</td> -->
+				<!-- </tr>
+			</table>  
+		</table>-->
+	</center>
+
+	<div style="height: 50px;"></div>
+	<center>
+		<table align=center width=850px>
+			<tr>
+				<td width=260px>
+					<center>
+						<img class="round" style="width:500px" src="./figures/teaser_v2.pdf"/>
+					</center>
+				</td>
+			</tr>
+		</table>
+		<table align=center width=850px>
+			<tr>
+				<td>
+					We propose ZeroCAD, an instance-level scene completion method based on the foundation of scan-to-CAD.
+					Our methodology advocates for learning 2D outpainting, due to the availability of 2D annotated data, followed by 3D test time optimization to enhance alignment, retrieval, and deformation.
+					By only supervising the 2D outpainting we enable zero-shot instance reconstruction.
+				</td>
+			</tr>
+		</table>
+	</center>
+	<div style="height: 50px;"></div>
+	<hr>
+
+	<table align=center width=850px>
+		<center><h1>Abstract</h1></center>
+		<tr>
+			<td>
+				Reconstructing instances from incomplete point clouds scenes is a significant challenge, especially due to occlusions that hinder many methods from producing watertight instance reconstructions.
+				Scan-to-CAD addresses this issue by leveraging CAD databases to infer the general shapes of objects.
+				Despite recent advancements, existing approaches face two key limitations.
+				First, they rely heavily on 3D-labeled data for training, which is costly and time-consuming to acquire, leading to lower reconstruction performance.
+				Second, current methods use implicit shape encodings that often result in non-watertight meshes and require extensive 3D supervision, making zero-shot generalization particularly difficult.
+				To overcome these challenges, we introduce a novel approach that combines 2D outpainting with 3D test-time optimization.
+				By training only our proposed 2D outpainting network and using it to guide 3D retrieval, registration, and deformation at test time, we achieve class-agnostic, high-quality CAD object estimation.
+				Our method enhances this process through a 2D-3D mapping strategy that strengthens 2D guidance during test time.
+				Additionally, we propose a non-rigid transformation pipeline that addresses mesh quality issues by leveraging biharmonic coordinates for mesh deformation.
+				Culminating our contributions, we propose a zero-shot joint retrieval, registration, and deformation instance-based scene completion method.
+				We demonstrate up to a 16% increase in Point Coverage Ratio for Semantic Scene Completion and a 28% improvement in Chamfer Distance for Scan-to-CAD.
+			</td>
+		</tr>
+	</table>
+	<br>
+
+	<hr>
+	<center><h1>Comparision</h1></center>
+	<!-- <p align="center">
+		<iframe width="660" height="395" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen align="center"></iframe>
+	</p> -->
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0011_01/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0011_01/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0011_01/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0011_01/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+	
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0050_02/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0050_02/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0050_02/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0050_02/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0084_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0084_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0084_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0084_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0088_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0088_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0088_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0088_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0196_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0196_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0196_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0196_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0355_01/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0355_01/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0355_01/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0355_01/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0377_01/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0377_01/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0377_01/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0377_01/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0616_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0616_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0616_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0616_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0658_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0658_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0658_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0658_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0664_02/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0664_02/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0664_02/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0664_02/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0665_01/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0665_01/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0665_01/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0665_01/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0670_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0670_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0670_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0670_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0685_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0685_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0685_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0685_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0686_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0686_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0686_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0686_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0696_02/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0696_02/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0696_02/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0696_02/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0699_00/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0699_00/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0699_00/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0699_00/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<div class="video-container">
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0702_02/VidOut/dimr.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>DIMR</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0702_02/VidOut/rfd.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>RFD-Net</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0702_02/VidOut/pred.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ours</figcaption>
+		</figure>
+	
+		<figure class="video-item">
+			<video controls autoplay muted loop>
+				<source src="figures/scene0702_02/VidOut/gt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<figcaption>Ground Truth</figcaption>
+		</figure>
+	</div>
+
+	<hr>
+	<center><h1>Code</h1></center>
+
+	<table align=center width=420px>
+		<center>
+			<tr>
+				<td>
+				</td>
+			</tr>
+		</center>
+	</table>
+	<table align=center width=800px>
+		<br>
+		<tr><center>
+			<span style="font-size:28px">&nbsp;<a href='https://github.com/richzhang/webpage-template'>[GitHub]</a>
+			</center>
+		</span>
+	</table>
+	<br>
+	<hr>
+	<table align=center width=450px>
+		<center><h1>Paper and Supplementary Material</h1></center>
+		<tr>
+			<td><a href=""><img class="layered-paper-big" style="height:175px" src="./resources/paper.png"/></a></td>
+			<td><span style="font-size:14pt">F. Author, S. Author, T. Author.<br>
+				<b>Creative and Descriptive Paper Title.</b><br>
+				In Conference, 20XX.<br>
+				(hosted on <a href="">ArXiv</a>)<br>
+				<!-- (<a href="./resources/camera-ready.pdf">camera ready</a>)<br> -->
+				<span style="font-size:4pt"><a href=""><br></a>
+				</span>
+			</td>
+		</tr>
+	</table>
+	<br>
+
+	<table align=center width=600px>
+		<tr>
+			<td><span style="font-size:14pt"><center>
+				<a href="./resources/bibtex.txt">[Bibtex]</a>
+			</center></td>
+		</tr>
+	</table>
+
+	<hr>
+	<br>
+
+	<table align=center width=900px>
+		<tr>
+			<td width=400px>
+				<left>
+					<center><h1>Acknowledgements</h1></center>
+					This template was originally made by <a href="http://web.mit.edu/phillipi/">Phillip Isola</a> and <a href="http://richzhang.github.io/">Richard Zhang</a> for a <a href="http://richzhang.github.io/colorization/">colorful</a> ECCV project; the code can be found <a href="https://github.com/richzhang/webpage-template">here</a>.
+				</left>
+			</td>
+		</tr>
+	</table>
+
+<br>
+</body>
+</html>
+
